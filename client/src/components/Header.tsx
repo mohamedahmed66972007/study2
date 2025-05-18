@@ -54,18 +54,20 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
 
           <div className="flex items-center space-x-4 space-x-reverse">
             <div className="flex items-center gap-4">
+            {!isAdmin && (
+              <Button 
+                variant="ghost"
+                onClick={() => setShowLoginModal(true)}
+                className="flex items-center gap-2"
+              >
+                <LogIn className="h-5 w-5" />
+                تسجيل دخول
+              </Button>
+            )}
             <Button
               variant="ghost"
               size="icon"
-              onClick={handleLanguageToggle}
-              title={language === 'ar' ? 'Switch to English' : 'التحويل للعربية'}
-            >
-              <Globe className="h-5 w-5" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleThemeToggle}
+              onClick={toggleTheme}
               title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
             >
               {theme === 'dark' ? (
