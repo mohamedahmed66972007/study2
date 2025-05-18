@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, User, LogOut, Moon, Sun, Globe } from "lucide-react";
+import { Upload, User, LogOut, Moon, Sun } from "lucide-react";
 import UploadModal from "./UploadModal";
 import LoginModal from "./LoginModal";
 import { useAuth } from "@/hooks/use-auth";
@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
-import { useLanguage } from "@/hooks/use-language";
 
 interface HeaderProps {
   isAdmin: boolean;
@@ -22,20 +21,11 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { logout } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const { t, i18n } = useTranslation();
-  const { language, toggleLanguage } = useLanguage();
 
   const handleThemeToggle = () => {
-    toggleTheme();
-  };
-
-  const handleLanguageToggle = () => {
-    const newLang = language === 'ar' ? 'en' : 'ar';
-    document.dir = newLang === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = newLang;
-    i18n.changeLanguage(newLang);
-    toggleLanguage();
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   const handleLogout = async () => {
@@ -57,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
             {!isAdmin && (
               <Button 
                 variant="ghost"
-                onClick={() => setShowLoginModal(true)}
+                onClick={() => setIsLoginModalOpen(true)}
                 className="flex items-center gap-2"
               >
                 <LogIn className="h-5 w-5" />
@@ -67,7 +57,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
             <Button
               variant="ghost"
               size="icon"
-              onClick={toggleTheme}
+              onClick={handleThemeToggle}
               title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
             >
               {theme === 'dark' ? (
