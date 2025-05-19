@@ -46,67 +46,67 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
             <div className="flex items-center gap-4">
             {!isAdmin ? (
               <Button 
-                variant="ghost"
+                variant="outline"
                 onClick={() => setIsLoginModalOpen(true)}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 text-primary"
               >
-                <LogIn className="h-5 w-5" />
-                تسجيل دخول
+                <User className="h-5 w-5 ml-2" />
+                دخول المسؤول
               </Button>
-            ) : (
-              <Button 
-                variant="ghost"
-                onClick={handleLogout}
-                className="flex items-center gap-2"
-              >
-                <LogOut className="h-5 w-5" />
-                تسجيل خروج
-              </Button>
-            )}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleThemeToggle}
-              title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
-            >
-              {theme === 'dark' ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-            </Button>
-            {isAdmin && (
-              <>
-                <Button 
-                  onClick={() => setIsUploadModalOpen(true)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white flex items-center"
-                >
-                  <Upload className="w-4 h-4 ml-1" />
-                  رفع ملف
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-gray-900">
-                    <User className="w-5 h-5" />
-                    <span className="mr-1">المسؤول</span>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
-                      <LogOut className="w-4 h-4 ml-2" />
-                      تسجيل الخروج
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
-            )}
-          </div>
-          </div>
-        </div>
-      </div>
+) : (
+<Button 
+variant="ghost"
+onClick={handleLogout}
+className="flex items-center gap-2"
+>
+<LogOut className="h-5 w-5" />
+تسجيل خروج
+</Button>
+)}
+<Button
+variant="ghost"
+size="icon"
+onClick={handleThemeToggle}
+title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
+>
+{theme === 'dark' ? (
+<Sun className="h-5 w-5" />
+) : (
+<Moon className="h-5 w-5" />
+)}
+</Button>
+{isAdmin && (
+<>
+<Button 
+  onClick={() => setIsUploadModalOpen(true)}
+  className="bg-blue-500 hover:bg-blue-600 text-white flex items-center"
+>
+  <Upload className="w-4 h-4 ml-1" />
+  رفع ملف
+</Button>
+<DropdownMenu>
+  <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-gray-900">
+    <User className="w-5 h-5" />
+    <span className="mr-1">المسؤول</span>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent align="end">
+    <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+      <LogOut className="w-4 h-4 ml-2" />
+      تسجيل الخروج
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+</>
+)}
+</div>
+</div>
+</div>
+</div>
 
-      {isUploadModalOpen && <UploadModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />}
-      {isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />}
-    </header>
-  );
+{isUploadModalOpen && <UploadModal isOpen={isUploadModalOpen} onClose={() => setIsUploadModalOpen(false)} />}
+{isLoginModalOpen && <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />}
+</header>
+);
 };
 
 export default Header;
