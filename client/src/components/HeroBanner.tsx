@@ -12,8 +12,8 @@ const HeroBanner: React.FC = () => {
       
       <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/60 flex items-center">
         <div className="px-8 py-4 text-white">
-          <h2 className="text-3xl font-bold mb-2">مكتبة المواد الدراسية</h2>
-          <p className="text-xl opacity-90">جميع المواد الدراسية في مكان واحد - سهلة الوصول والتنظيم</p>
+          <h2 className="text-3xl font-bold mb-2">دفعة 2026</h2>
+          <p className="text-xl opacity-90">جميع المواد الدراسية للصف الثاني عشر في مكان واحد</p>
         </div>
       </div>
     </section>
