@@ -207,22 +207,13 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   <SelectItem value="chemistry">الكيمياء</SelectItem>
                   <SelectItem value="physics">الفيزياء</SelectItem>
                   <SelectItem value="islamic">التربية الإسلامية</SelectItem>
+                  <SelectItem value="constitution">الدستور</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
             <div>
-              <Label htmlFor="uploadGrade" className="text-right block">الصف الدراسي</Label>
-              <Select value={grade} onValueChange={setGrade}>
-                <SelectTrigger id="uploadGrade">
-                  <SelectValue placeholder="اختر الصف..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="10">الصف العاشر</SelectItem>
-                  <SelectItem value="11">الصف الحادي عشر</SelectItem>
-                  <SelectItem value="12">الصف الثاني عشر</SelectItem>
-                </SelectContent>
-              </Select>
+              <input type="hidden" value="12" onChange={() => {}} />
             </div>
           </div>
           
