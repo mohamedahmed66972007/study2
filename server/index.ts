@@ -1,13 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
-import FileStore from "session-file-store";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import path from "path";
 
 const app = express();
 
-// ✅ إعداد التخزين للجلسات في ملفات بدل MemoryStore
+// ✅ Dynamic import for session-file-store to fix deployment issue
+const FileStore = (await import("session-file-store")).default;
 const FileStoreSession = FileStore(session);
 
 app.use(session({
@@ -15,17 +15,16 @@ app.use(session({
     path: path.resolve(__dirname, "../sessions"),
     retries: 0,
   }),
-  secret: process.env.SESSION_SECRET || "my_super_secret_key_123", // 🔐 يفضل تغييره من Render env vars
+  secret: process.env.SESSION_SECRET || "my_super_secret_key_123",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // خليها true لو عندك HTTPS
+    secure: false,
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000, // يوم
+    maxAge: 24 * 60 * 60 * 1000,
   }
 }));
 
-// ✅ CORS
 app.use((req, res, next) => {
   const allowedOrigins = process.env.NODE_ENV === 'production'
     ? ['https://study2.onrender.com']
@@ -50,7 +49,6 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// ✅ Logging لكل API request
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -79,7 +77,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ Main async block
 (async () => {
   const server = await registerRoutes(app);
 
