@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Upload, User, LogOut, Moon, Sun } from "lucide-react";
+import { Upload, User, LogOut, Moon, Sun, LogIn } from "lucide-react";
 import UploadModal from "./UploadModal";
 import LoginModal from "./LoginModal";
 import { useAuth } from "@/hooks/use-auth";
