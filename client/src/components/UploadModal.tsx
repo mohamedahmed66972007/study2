@@ -261,7 +261,7 @@ const UploadModal: React.FC<UploadModalProps> = ({ isOpen, onClose }) => {
                   <p className="pr-1">أو اسحب وأفلت هنا</p>
                 </div>
                 {fileName ? (
-                  <p className="text-sm text-blue-600 font-medium">{fileName}</p>
+                  <p className="text-sm text-blue-600 font-medium truncate max-w-[250px] mx-auto">{fileName}</p>
                 ) : (
                   <p className="text-xs text-gray-500">
                     PDF, DOCX, PPTX أو XLSX بحجم أقصى 10 ميجابايت
