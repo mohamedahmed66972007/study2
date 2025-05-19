@@ -225,7 +225,7 @@ const FileCard: React.FC<FileCardProps> = ({ file, isAdmin }) => {
           </Button>
           <Button
             onClick={handleDownload}
-            className={`flex-1 text-sm bg-${subject.color} text-white hover:bg-${subject.color}/90`}
+            className="flex-1 text-sm bg-blue-500 hover:bg-blue-600 text-white"
           >
             <Download className="w-4 h-4 ml-1" />
             تحميل
