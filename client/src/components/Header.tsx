@@ -55,19 +55,7 @@ const isDark = theme === 'dark';
                 <span className="hidden md:inline">دخول المسؤول</span>
               </Button>
 ) : null}
-<Button
-variant="ghost"
-size="icon"
-onClick={handleThemeToggle}
-title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
-className="dark:text-white"
->
-{theme === 'dark' ? (
-<Sun className="h-5 w-5" />
-) : (
-<Moon className="h-5 w-5" />
-)}
-</Button>
+
 {isAdmin && (
 <>
 <Button 
