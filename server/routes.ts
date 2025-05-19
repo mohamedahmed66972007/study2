@@ -6,10 +6,10 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import session from "express-session";
 import { insertFileSchema } from "@shared/schema";
-import fs from 'fs';
 import path from 'path';
+import fs from 'fs';
 
-// Set up multer for file uploads using relative paths
+// Set up multer for file uploads using relative path
 const UPLOADS_DIR = "./uploads";
 
 // Create uploads directory if it doesn't exist
@@ -23,7 +23,7 @@ const storage_engine = multer.diskStorage({
   },
   filename: function (_req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
+    cb(null, uniqueSuffix + extname(file.originalname));
   },
 });
 
