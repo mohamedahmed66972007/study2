@@ -44,7 +44,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
 
           <div className="flex items-center space-x-4 space-x-reverse">
             <div className="flex items-center gap-4">
-            {!isAdmin && (
+            {!isAdmin ? (
               <Button 
                 variant="ghost"
                 onClick={() => setIsLoginModalOpen(true)}
@@ -52,6 +52,15 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
               >
                 <LogIn className="h-5 w-5" />
                 تسجيل دخول
+              </Button>
+            ) : (
+              <Button 
+                variant="ghost"
+                onClick={handleLogout}
+                className="flex items-center gap-2"
+              >
+                <LogOut className="h-5 w-5" />
+                تسجيل خروج
               </Button>
             )}
             <Button
