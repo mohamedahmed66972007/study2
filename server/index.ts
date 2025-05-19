@@ -1,15 +1,12 @@
 
 import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const app = express();
+
+// In production, we don't need __dirname since we're using relative paths
 
 app.use(session({
   secret: process.env.SESSION_SECRET || "my_super_secret_key_123",
