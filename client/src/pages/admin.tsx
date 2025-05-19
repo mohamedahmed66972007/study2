@@ -26,7 +26,7 @@ const AdminPage: React.FC = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">لوحة التحكم</h1>
-          <Button className="bg-blue-500 hover:bg-blue-600">
+          <Button className="bg-blue-500 hover:bg-blue-600" onClick={() => setIsUploadModalOpen(true)}>
             <Plus className="w-4 h-4 ml-1" />
             رفع ملف جديد
           </Button>
@@ -41,7 +41,7 @@ const AdminPage: React.FC = () => {
               <p className="text-3xl font-bold">24</p>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">إجمالي التحميلات</CardTitle>
@@ -50,7 +50,7 @@ const AdminPage: React.FC = () => {
               <p className="text-3xl font-bold">1,294</p>
             </CardContent>
           </Card>
-          
+
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-lg">المواد الأكثر تحميلاً</CardTitle>
@@ -60,7 +60,7 @@ const AdminPage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-        
+
         <Card>
           <CardHeader>
             <CardTitle>أحدث الملفات المرفوعة</CardTitle>
