@@ -53,16 +53,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
                 <User className="h-5 w-5 ml-2" />
                 دخول المسؤول
               </Button>
-) : (
-<Button 
-variant="ghost"
-onClick={handleLogout}
-className="flex items-center gap-2"
->
-<LogOut className="h-5 w-5" />
-تسجيل خروج
-</Button>
-)}
+) : null}
 <Button
 variant="ghost"
 size="icon"
