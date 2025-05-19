@@ -6,8 +6,8 @@ import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import session from "express-session";
 import { insertFileSchema } from "@shared/schema";
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import fs from 'fs';
+import path from 'path';
 
 // Set up multer for file uploads using relative paths
 const UPLOADS_DIR = "./uploads";
