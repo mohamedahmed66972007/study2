@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
       <div className="container mx-auto px-4 sm:px:6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
-            <h1 className="text-2xl font-bold text-gray-800">منصة المواد الدراسية</h1>
+            <h1 className="text-2xl font-bold text-gray-800">دفعة 2026</h1>
             {isAdmin && <span className="inline-flex items-center justify-center px-2 py-1 text-xs leading-none text-red-100 bg-red-600 rounded mr-3">مسؤول</span>}
           </div>
 
