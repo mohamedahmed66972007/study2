@@ -1,2 +1,2 @@
 
-// This file will be empty and unused
+// This file is intentionally empty as language switching is removed
