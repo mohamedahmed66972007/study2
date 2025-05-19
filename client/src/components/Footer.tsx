@@ -17,7 +17,7 @@ const Footer = () => {
 
           {/* Contact Section */}
           <div>
-            <h3 className="text-lg font-semibold mb-4 text-right">تواصل معنا</h3>
+            <h3 className="text-lg font-semibold mb-4 text-right">للتواصل:</h3>
             <div className="text-gray-600 dark:text-gray-400 text-right">
               <p className="mb-2">الهاتف: 96566162173+</p>
               <p>البريد الإلكتروني: mohamedahmed66972007@gmail.com</p>
@@ -25,12 +25,7 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-          <p className="text-center text-gray-600 dark:text-gray-400">
-            جميع الحقوق محفوظة © {new Date().getFullYear()}
-          </p>
-        </div>
+        
       </div>
     </footer>
   );
