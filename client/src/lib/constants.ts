@@ -1,18 +1,18 @@
+
 import { Subject } from "./types";
 
 export const SUBJECTS = [
   { id: Subject.Arabic, name: "اللغة العربية", color: "blue-500" },
   { id: Subject.English, name: "اللغة الإنجليزية", color: "green-500" },
   { id: Subject.Math, name: "الرياضيات", color: "red-500" },
-  { id: Subject.Biology, name: "الأحياء", color: "purple-500" },
-  { id: Subject.Chemistry, name: "الكيمياء", color: "yellow-500" },
-  { id: Subject.Physics, name: "الفيزياء", color: "pink-500" },
-  { id: Subject.Islamic, name: "التربية الإسلامية", color: "orange-500" }
+  { id: Subject.Biology, name: "الأحياء", color: "yellow-500" },
+  { id: Subject.Chemistry, name: "الكيمياء", color: "purple-500" },
+  { id: Subject.Physics, name: "الفيزياء", color: "red-600" },
+  { id: Subject.Islamic, name: "التربية الإسلامية", color: "teal-500" },
+  { id: Subject.Constitution, name: "الدستور", color: "amber-500" }
 ];
 
 export const GRADES = [
-  { id: "10", name: "الصف العاشر" },
-  { id: "11", name: "الصف الحادي عشر" },
   { id: "12", name: "الصف الثاني عشر" }
 ];
 
@@ -28,14 +28,11 @@ export const ITEMS_PER_PAGE = 6;
 
 export const formatDate = (dateStr: string): string => {
   const date = new Date(dateStr);
-
-  // Format date in Arabic style
   const formatter = new Intl.DateTimeFormat('ar-EG', {
     day: 'numeric',
     month: 'long',
     year: 'numeric'
   });
-
   return formatter.format(date);
 };
 
