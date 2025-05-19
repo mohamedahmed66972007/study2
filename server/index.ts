@@ -5,7 +5,7 @@ import cors from "cors";
 
 const app = express();
 app.use(cors({
-  origin: true,
+  origin: process.env.NODE_ENV === 'production' ? ['https://study2.onrender.com'] : true,
   credentials: true
 }));
 app.use(express.json());
