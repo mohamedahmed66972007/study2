@@ -3,12 +3,24 @@ import { login, logout, checkAdminStatus } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
 export function useAuth() {
-  const [isAdmin, setIsAdmin] = useState<boolean>(checkAdminStatus());
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    setIsAdmin(checkAdminStatus());
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/auth/status');
+        const data = await response.json();
+        setIsAdmin(data.isAdmin);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
+    checkAuth();
   }, []);
 
   const handleLogin = async (username: string, password: string) => {
