@@ -5,9 +5,11 @@ import multer from "multer";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import session from "express-session";
+import FileStore from "session-file-store";
 import { insertFileSchema } from "@shared/schema";
 import { fileURLToPath } from 'url';
 import { dirname, join, extname } from 'path';
+import path from 'path';
 import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,27 +48,30 @@ const upload = multer({
   storage: storage_engine,
   fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024, // 10MB
+    fileSize: 50 * 1024 * 1024, // 50MB
   },
 });
 
-// Admin credentials (in a real app, these would be securely stored in a database)
+// Admin credentials
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "mohamed_admen_mo2025";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "mohamed_admen_mo2025#";
 
 // Setup session middleware
 const setupSession = (app: Express) => {
+  const FileStoreInstance = FileStore(session);
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "education-file-platform-secret",
       resave: false,
       saveUninitialized: false,
-      cookie: { 
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      store: new FileStoreInstance({
+        path: './sessions',
+      }),
+      cookie: {
+        secure: false, // ← ده التعديل المهم جدًا
         httpOnly: true,
-        path: '/',
-        sameSite: 'none'
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite: 'lax',
       },
     })
   );
@@ -155,17 +160,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         filesize: req.file.size,
       };
 
-      // Validate the file data
       const validatedData = insertFileSchema.parse(fileData);
 
-      // Save to storage
       const file = await storage.createFile(validatedData);
 
       return res.status(201).json(file);
     } catch (error) {
       console.error("Error uploading file:", error);
 
-      // If file was uploaded but validation failed, delete the file
       if (req.file) {
         fs.unlinkSync(req.file.path);
       }
@@ -183,7 +185,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const fileId = parseInt(req.params.id);
       const { title, description, grade, semester, subject } = req.body;
-      
+
       const file = await storage.getFile(fileId);
       if (!file) {
         return res.status(404).json({ message: "File not found" });
@@ -206,12 +208,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "File not found" });
       }
 
-      // Delete the physical file
       if (fs.existsSync(file.filepath)) {
         fs.unlinkSync(file.filepath);
       }
 
-      // Delete from storage
       await storage.deleteFile(fileId);
 
       return res.status(200).json({ message: "File deleted successfully" });
@@ -230,19 +230,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "File not found" });
       }
 
-      // Check if file exists
       if (!fs.existsSync(file.filepath)) {
         return res.status(404).json({ message: "File not found on server" });
       }
 
-      // Increment download count
       await storage.incrementDownloadCount(fileId);
 
-      // Set appropriate headers
       res.setHeader("Content-Disposition", `attachment; filename="${file.filename}"`);
       res.setHeader("Content-Type", `application/${file.filetype}`);
 
-      // Stream the file
       const fileStream = fs.createReadStream(file.filepath);
       fileStream.pipe(res);
     } catch (error) {
@@ -271,24 +267,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "File not found" });
       }
 
-      // Check if file exists
       if (!fs.existsSync(file.filepath)) {
         return res.status(404).json({ message: "File not found on server" });
       }
 
-      // Set appropriate headers for inline viewing
       res.setHeader("Content-Disposition", `inline; filename="${file.filename}"`);
       
-      // For PDF files
       if (file.filetype === "pdf") {
         res.setHeader("Content-Type", "application/pdf");
       } else {
-        // For other file types, default to attachment
         res.setHeader("Content-Disposition", `attachment; filename="${file.filename}"`);
         res.setHeader("Content-Type", `application/${file.filetype}`);
       }
 
-      // Stream the file
       const fileStream = fs.createReadStream(file.filepath);
       fileStream.pipe(res);
     } catch (error) {
@@ -298,6 +289,5 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   const httpServer = createServer(app);
-
   return httpServer;
 }
