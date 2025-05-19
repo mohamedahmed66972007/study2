@@ -34,7 +34,10 @@ const SubjectTabs: React.FC<SubjectTabsProps> = ({ activeSubject, onSelectSubjec
               onClick={() => onSelectSubject(subject.id)}
             >
               <span className={`w-3 h-3 rounded-full bg-${subject.color} mr-2`}></span>
-              {subject.name}
+              <span className="flex items-center gap-2">
+                <span className={`w-2 h-2 rounded-full bg-${subject.color}`}></span>
+                {subject.name}
+              </span>
             </button>
           ))}
         </nav>
