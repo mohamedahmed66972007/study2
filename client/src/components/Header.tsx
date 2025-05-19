@@ -22,6 +22,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
+const isDark = theme === 'dark';
   const { t, i18n } = useTranslation();
 
   const handleThemeToggle = () => {
@@ -34,7 +35,7 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
 
 
   return (
-    <header className="bg-white shadow-md">
+    <header className="bg-white dark:bg-gray-900 shadow-md">
       <div className="container mx-auto px-4 sm:px:6 lg:px-8">
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center">
@@ -50,8 +51,8 @@ const Header: React.FC<HeaderProps> = ({ isAdmin }) => {
                 onClick={() => setIsLoginModalOpen(true)}
                 className="flex items-center gap-2 text-primary"
               >
-                <User className="h-5 w-5 ml-2" />
-                دخول المسؤول
+                <User className="h-5 w-5" />
+                <span className="hidden md:inline">دخول المسؤول</span>
               </Button>
 ) : null}
 <Button
@@ -59,6 +60,7 @@ variant="ghost"
 size="icon"
 onClick={handleThemeToggle}
 title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
+className="dark:text-white"
 >
 {theme === 'dark' ? (
 <Sun className="h-5 w-5" />
@@ -72,8 +74,8 @@ title={theme === 'dark' ? 'وضع النهار' : 'الوضع الليلي'}
   onClick={() => setIsUploadModalOpen(true)}
   className="bg-blue-500 hover:bg-blue-600 text-white flex items-center"
 >
-  <Upload className="w-4 h-4 ml-1" />
-  رفع ملف
+  <Upload className="w-4 h-4" />
+  <span className="hidden md:inline ml-1">رفع ملف</span>
 </Button>
 <DropdownMenu>
   <DropdownMenuTrigger className="flex items-center text-gray-700 hover:text-gray-900">
