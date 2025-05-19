@@ -1,37 +1,30 @@
+
 import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { fileURLToPath } from 'url';
-import { dirname, resolve } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 
-// ✅ Dynamic import for session-file-store to fix deployment issue
-const FileStore = (await import("session-file-store")).default;
-const FileStoreSession = FileStore(session);
-
 app.use(session({
-  store: new FileStoreSession({
-    path: path.resolve(__dirname, "../sessions"),
-    retries: 0,
-  }),
   secret: process.env.SESSION_SECRET || "my_super_secret_key_123",
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: process.env.NODE_ENV === 'production',
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 24 * 60 * 60 * 1000
   }
 }));
 
 app.use((req, res, next) => {
-  const allowedOrigins = process.env.NODE_ENV === 'production'
-    ? ['https://study2.onrender.com']
+  const allowedOrigins = process.env.NODE_ENV === 'production' 
+    ? ['https://study2.onrender.com'] 
     : ['http://localhost:5000'];
 
   const origin = req.headers.origin;
