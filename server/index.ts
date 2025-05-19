@@ -1,25 +1,49 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import path from "path";
 
 const app = express();
 
-// Handle CORS
+// ✅ Session middleware (مهم جدًا لتثبيت تسجيل الدخول)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "my_super_secret_key_123", // بدّلها في بيئة الإنتاج
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 7, // أسبوع
+    },
+  })
+);
+
+// ✅ CORS middleware (مهم عشان الكوكيز تتبعت من الكلاينت)
 app.use((req, res, next) => {
-  const allowedOrigins = process.env.NODE_ENV === 'production' 
-    ? ['https://study2.onrender.com'] 
-    : ['http://localhost:5000'];
+  const allowedOrigins =
+    process.env.NODE_ENV === "production"
+      ? ["https://study2.onrender.com"]
+      : ["http://localhost:5173"];
 
   const origin = req.headers.origin;
   if (origin && allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return res.status(200).end();
   }
 
@@ -29,6 +53,7 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// ✅ Logger
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -59,6 +84,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// ✅ Start async setup
 (async () => {
   const server = await registerRoutes(app);
 
@@ -70,21 +96,14 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = 5000;
-app.listen(5000, '0.0.0.0', () => {
-  console.log("Server is running on http://0.0.0.0:5000");
-});
-
+  app.listen(port, "0.0.0.0", () => {
+    console.log(`Server is running on http://0.0.0.0:${port}`);
+  });
 })();
