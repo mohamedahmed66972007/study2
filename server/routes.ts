@@ -2,15 +2,15 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import multer from "multer";
-import path from "path";
-import fs from "fs";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import session from "express-session";
 import { insertFileSchema } from "@shared/schema";
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-// Set up multer for file uploads
-const UPLOADS_DIR = path.join(process.cwd(), "uploads");
+// Set up multer for file uploads using relative paths
+const UPLOADS_DIR = "./uploads";
 
 // Create uploads directory if it doesn't exist
 if (!fs.existsSync(UPLOADS_DIR)) {
