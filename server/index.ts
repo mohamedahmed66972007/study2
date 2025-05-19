@@ -2,7 +2,11 @@ import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import path from "path";
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 
@@ -98,4 +102,3 @@ app.use((req, res, next) => {
     console.log(`Server is running on http://0.0.0.0:${port}`);
   });
 })();
-
