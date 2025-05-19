@@ -12,7 +12,6 @@ export const login = async (credentials: AdminCredentials): Promise<boolean> => 
     
     if (response.ok && data.success) {
       localStorage.setItem("isAdmin", "true");
-      document.cookie = "connect.sid=" + data.sessionId + "; path=/";
       return true;
     }
     return false;
